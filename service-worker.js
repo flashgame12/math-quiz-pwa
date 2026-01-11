@@ -1,18 +1,23 @@
-const CACHE_NAME = 'math-quiz-v1';
-const FILES_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/questions.json',
-  '/manifest.json',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+const CACHE_NAME = 'math-quiz-v4';
+const PRECACHE_PATHS = [
+  '',
+  'index.html',
+  'styles.css',
+  'app.js',
+  'questions.json',
+  'manifest.json',
+  'icons/icon-192.png',
+  'icons/icon-512.png'
 ];
+
+function toScopedUrl(path) {
+  // Use the SW registration scope as the base so this works from any subfolder.
+  return new URL(path, self.registration.scope).toString();
+}
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(FILES_TO_CACHE))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_PATHS.map(toScopedUrl)))
   );
   self.skipWaiting();
 });
@@ -43,6 +48,6 @@ self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(req).then(cached => cached || fetch(req).then(res => {
       return caches.open(CACHE_NAME).then(cache => { cache.put(req, res.clone()); return res; });
-    })).catch(() => caches.match('/index.html'))
+    })).catch(() => caches.match(toScopedUrl('index.html')))
   );
 });
