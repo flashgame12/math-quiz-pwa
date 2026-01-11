@@ -1,4 +1,5 @@
-const CACHE_NAME = 'math-quiz-v4';
+const SW_VERSION = new URL(self.location.href).searchParams.get('v') || 'v1';
+const CACHE_NAME = `math-quiz-${SW_VERSION}`;
 const PRECACHE_PATHS = [
   '',
   'index.html',
@@ -13,6 +14,38 @@ const PRECACHE_PATHS = [
 function toScopedUrl(path) {
   // Use the SW registration scope as the base so this works from any subfolder.
   return new URL(path, self.registration.scope).toString();
+}
+
+function isQuestionsRequest(request) {
+  try {
+    const url = new URL(request.url);
+    return url.origin === self.location.origin && url.pathname.endsWith('questions.json');
+  } catch {
+    return false;
+  }
+}
+
+async function cachePut(request, response) {
+  const cache = await caches.open(CACHE_NAME);
+  await cache.put(request, response);
+}
+
+async function networkFirst(request) {
+  try {
+    const res = await fetch(request);
+    void cachePut(request, res.clone());
+    return res;
+  } catch {
+    return caches.match(request);
+  }
+}
+
+async function cacheFirst(request) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  const res = await fetch(request);
+  void cachePut(request, res.clone());
+  return res;
 }
 
 self.addEventListener('install', event => {
@@ -33,21 +66,24 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
   const req = event.request;
-  // Network-first for JSON (to get updates), cache-first for others
-  if(req.url.endsWith('questions.json')){
-    event.respondWith(
-      fetch(req).then(res => {
-        const copy = res.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(req, copy));
-        return res;
-      }).catch(() => caches.match(req))
-    );
+
+  // Only handle same-origin GET requests.
+  if (req.method !== 'GET') return;
+  try {
+    const url = new URL(req.url);
+    if (url.origin !== self.location.origin) return;
+  } catch {
     return;
   }
 
+  // Network-first for JSON (to get updates).
+  if (isQuestionsRequest(req)) {
+    event.respondWith(networkFirst(req));
+    return;
+  }
+
+  // Cache-first for everything else, with an HTML fallback.
   event.respondWith(
-    caches.match(req).then(cached => cached || fetch(req).then(res => {
-      return caches.open(CACHE_NAME).then(cache => { cache.put(req, res.clone()); return res; });
-    })).catch(() => caches.match(toScopedUrl('index.html')))
+    cacheFirst(req).catch(() => caches.match(toScopedUrl('index.html')))
   );
 });
