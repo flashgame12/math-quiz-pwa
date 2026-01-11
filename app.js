@@ -7,7 +7,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '2026-01-11';
+const BUILD_ID = '2026-01-11-1';
 
 const state = {
   questions: [],

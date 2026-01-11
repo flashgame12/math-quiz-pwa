@@ -30,22 +30,57 @@ async function cachePut(request, response) {
   await cache.put(request, response);
 }
 
+async function cacheMatch(request) {
+  const cache = await caches.open(CACHE_NAME);
+  return cache.match(request);
+}
+
 async function networkFirst(request) {
   try {
     const res = await fetch(request);
     void cachePut(request, res.clone());
     return res;
   } catch {
-    return caches.match(request);
+    return cacheMatch(request);
   }
 }
 
 async function cacheFirst(request) {
-  const cached = await caches.match(request);
+  const cached = await cacheMatch(request);
   if (cached) return cached;
   const res = await fetch(request);
   void cachePut(request, res.clone());
   return res;
+}
+
+async function staleWhileRevalidate(request) {
+  const cached = await cacheMatch(request);
+  const fetchPromise = fetch(request)
+    .then(res => {
+      void cachePut(request, res.clone());
+      return res;
+    })
+    .catch(() => undefined);
+
+  return cached || fetchPromise || new Response('Offline', { status: 503 });
+}
+
+function isAppShellRequest(request) {
+  try {
+    const url = new URL(request.url);
+    if (url.origin !== self.location.origin) return false;
+
+    if (request.mode === 'navigate') return true;
+    return (
+      url.pathname.endsWith('/') ||
+      url.pathname.endsWith('/index.html') ||
+      url.pathname.endsWith('/styles.css') ||
+      url.pathname.endsWith('/app.js') ||
+      url.pathname.endsWith('/manifest.json')
+    );
+  } catch {
+    return false;
+  }
 }
 
 self.addEventListener('install', event => {
@@ -82,8 +117,14 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Keep the app shell fresh (important for iOS Safari caches).
+  if (isAppShellRequest(req)) {
+    event.respondWith(networkFirst(req));
+    return;
+  }
+
   // Cache-first for everything else, with an HTML fallback.
   event.respondWith(
-    cacheFirst(req).catch(() => caches.match(toScopedUrl('index.html')))
+    cacheFirst(req).catch(() => cacheMatch(toScopedUrl('index.html')))
   );
 });
