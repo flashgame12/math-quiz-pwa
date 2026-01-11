@@ -2,12 +2,62 @@ const ui = {
   questionEl: document.getElementById('question'),
   optionsEl: document.getElementById('options'),
   feedbackEl: document.getElementById('feedback'),
-  nextBtn: document.getElementById('next')
+  nextBtn: document.getElementById('next'),
+  buildBadgeEl: document.getElementById('build-badge')
 };
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '2026-01-11-1';
+const BUILD_ID = '5';
+
+function getServiceWorkerVersionFromController() {
+  try {
+    const controller = navigator.serviceWorker?.controller;
+    if (!controller?.scriptURL) return null;
+    const url = new URL(controller.scriptURL);
+    return url.searchParams.get('v');
+  } catch {
+    return null;
+  }
+}
+
+function renderBuildBadge() {
+  if (!ui.buildBadgeEl) return;
+
+  const swVersion = getServiceWorkerVersionFromController();
+  const swLabel = swVersion ? `sw ${swVersion}` : (navigator.serviceWorker ? 'sw —' : 'sw off');
+  ui.buildBadgeEl.textContent = `v${BUILD_ID}`;
+  ui.buildBadgeEl.title = `build ${BUILD_ID} • ${swLabel} (click to copy)`;
+}
+
+async function copyBuildInfoToClipboard() {
+  const swVersion = getServiceWorkerVersionFromController();
+  const text = [
+    `build=${BUILD_ID}`,
+    `sw=${swVersion || 'none'}`,
+    `url=${window.location.href}`
+  ].join(' ');
+
+  try {
+    await navigator.clipboard.writeText(text);
+    ui.buildBadgeEl.textContent = 'copied';
+    setTimeout(renderBuildBadge, 900);
+  } catch {
+    // Clipboard can fail on iOS depending on context; fall back to just selecting.
+    ui.buildBadgeEl.textContent = text;
+  }
+}
+
+function initBuildBadge() {
+  if (!ui.buildBadgeEl) return;
+
+  renderBuildBadge();
+  ui.buildBadgeEl.addEventListener('click', () => void copyBuildInfoToClipboard());
+
+  if (navigator.serviceWorker) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => renderBuildBadge());
+  }
+}
 
 const state = {
   questions: [],
@@ -129,5 +179,6 @@ ui.nextBtn.addEventListener('click', goToNextQuestion);
 
 applyBuildIdToManifestLink();
 registerServiceWorker();
+initBuildBadge();
 
 loadQuestions();
