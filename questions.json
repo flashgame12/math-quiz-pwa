@@ -1,7 +1,154 @@
 [
   {
-    "question": "What is 7 + 6?",
-    "options": ["11", "12", "13", "14"],
+    "subject": "math",
+    "grade": "3",
+    "topic": "place value",
+    "question": "In the number 4,582, what is the value of the digit 5?",
+    "options": ["5", "50", "500", "5000"],
     "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "add/subtract",
+    "question": "457 + 268 = ?",
+    "options": ["615", "725", "735", "815"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "multiply",
+    "question": "8 x 6 = ?",
+    "options": ["42", "48", "54", "56"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "divide",
+    "question": "24 / 3 = ?",
+    "options": ["6", "7", "8", "9"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "fractions",
+    "question": "What is 1/4 of 12 apples?",
+    "options": ["2", "3", "4", "6"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "length",
+    "question": "A ribbon is 2 meters long. If 65 centimeters are cut off, how many centimeters of ribbon are left?",
+    "options": ["120", "135", "140", "150"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "time",
+    "question": "The hour hand is between 3 and 4, and the minute hand is on 6. What time is it?",
+    "options": ["3:00", "3:30", "4:30", "6:30"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "money",
+    "question": "Riya buys a pencil for \u20b98 and an eraser for \u20b96. She gives the shopkeeper \u20b920. How much change should she get?",
+    "options": ["\u20b94", "\u20b95", "\u20b96", "\u20b97"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "shapes",
+    "question": "How many corners (vertices) does a cube have?",
+    "options": ["4", "6", "8", "12"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "data",
+    "question": "A tally chart has 7 tally marks. Each tally mark stands for 2 students. How many students are there in total?",
+    "options": ["9", "12", "14", "16"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "patterns",
+    "question": "What number comes next in the pattern: 5, 10, 15, 20, ?",
+    "options": ["22", "23", "24", "25"],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "mass",
+    "question": "A packet of rice weighs 2 kg. Another packet weighs 500 g. What is the total weight?",
+    "options": ["2.25 kg", "2.5 kg", "2.75 kg", "3 kg"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "capacity",
+    "question": "A jug holds 2 liters of water. You pour in 750 milliliters. How much space is left in the jug?",
+    "options": ["750 mL", "1 L", "1.25 L", "1.5 L"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "calendar",
+    "question": "How many days are there in February in a leap year?",
+    "options": ["28", "29", "30", "31"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "perimeter",
+    "question": "What is the perimeter of a rectangle that is 6 cm long and 4 cm wide?",
+    "options": ["10 cm", "12 cm", "18 cm", "20 cm"],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "word problem",
+    "question": "A box has 24 crayons. If 9 crayons are used, how many crayons are left in the box?",
+    "options": ["13", "14", "15", "16"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "estimation",
+    "question": "Round 248 to the nearest ten.",
+    "options": ["240", "245", "250", "260"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "symmetry",
+    "question": "How many lines of symmetry does a square have?",
+    "options": ["1", "2", "3", "4"],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "pictograph",
+    "question": "In a pictograph, each circle stands for 2 books. If there are 5 circles, how many books are shown?",
+    "options": ["5", "7", "8", "10"],
+    "answer": 3
   }
 ]
