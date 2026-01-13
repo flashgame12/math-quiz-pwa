@@ -17,13 +17,13 @@
       <div class="field">
         <label for="grade">Grade</label>
         <select id="grade" name="grade" required>
-          <option value="">Select grade</option>
+          <option value="__all__">All grades</option>
         </select>
       </div>
       <div class="field">
         <label for="subject">Subject</label>
         <select id="subject" name="subject" required disabled>
-          <option value="">Select subject</option>
+          <option value="__all__">All subjects</option>
         </select>
       </div>
       <div class="field">
@@ -34,7 +34,7 @@
       </div>
       <div class="field inline">
         <label for="count">Number of questions</label>
-        <input id="count" name="count" type="number" min="1" max="50" step="1" value="5" required>
+        <input id="count" name="count" type="number" min="1" max="50" step="1" value="20" required>
       </div>
       <div class="actions">
         <button id="start" type="submit" class="start">Start quiz</button>

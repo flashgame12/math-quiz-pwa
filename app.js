@@ -24,7 +24,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '7';
+const BUILD_ID = '8';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -219,29 +219,50 @@ function shuffle(list) {
   return arr;
 }
 
+function normalizeFilterValue(value) {
+  return value === '__all__' ? '' : (value || '');
+}
+
 function handleGradeChange() {
-  const grade = ui.gradeSelect?.value || '';
+  const rawGrade = ui.gradeSelect?.value || '';
+  const grade = normalizeFilterValue(rawGrade);
+
+  if (!rawGrade) {
+    // Keep subject/topic gated until a grade is chosen so filters stay in a clear hierarchy.
+    populateSelect(ui.subjectSelect, [], 'All subjects', '__all__');
+    populateSelect(ui.topicSelect, [], 'All topics', '__all__');
+    ui.subjectSelect.disabled = true;
+    ui.topicSelect.disabled = true;
+    return;
+  }
+
   const subjects = uniqueValues(state.allQuestions, 'subject', q => !grade || q.grade === grade);
-  populateSelect(ui.subjectSelect, subjects, 'Select subject');
+  populateSelect(ui.subjectSelect, subjects, 'All subjects', '__all__');
   populateSelect(ui.topicSelect, [], 'All topics', '__all__');
+  ui.subjectSelect.disabled = !subjects.length;
   ui.topicSelect.disabled = true;
+
+  if (subjects.length) {
+    // Auto-refresh topics for the current subject selection when grade changes.
+    handleSubjectChange();
+  }
 }
 
 function handleSubjectChange() {
-  const grade = ui.gradeSelect?.value || '';
-  const subject = ui.subjectSelect?.value || '';
+  const grade = normalizeFilterValue(ui.gradeSelect?.value || '');
+  const subject = normalizeFilterValue(ui.subjectSelect?.value || '');
   const topics = uniqueValues(
     state.allQuestions,
     'topic',
     q => (!grade || q.grade === grade) && (!subject || q.subject === subject)
   );
   populateSelect(ui.topicSelect, topics, 'All topics', '__all__');
-  ui.topicSelect.disabled = false;
+  ui.topicSelect.disabled = !topics.length;
 }
 
 function buildFilters() {
   const grades = uniqueValues(state.allQuestions, 'grade');
-  populateSelect(ui.gradeSelect, grades, 'Select grade');
+  populateSelect(ui.gradeSelect, grades, 'All grades', '__all__');
 
   if (!filtersBound) {
     ui.gradeSelect?.addEventListener('change', () => {
@@ -333,18 +354,10 @@ function startSession(event) {
     return;
   }
 
-  const grade = ui.gradeSelect?.value || '';
-  const subject = ui.subjectSelect?.value || '';
-  const topicRaw = ui.topicSelect?.value || '';
-  const topic = topicRaw === '__all__' ? '' : topicRaw;
+  const grade = normalizeFilterValue(ui.gradeSelect?.value || '');
+  const subject = normalizeFilterValue(ui.subjectSelect?.value || '');
+  const topic = normalizeFilterValue(ui.topicSelect?.value || '');
   const requested = parseInt(ui.countInput?.value, 10) || 0;
-
-  if (!grade || !subject) {
-    setFilterFeedback('Please select a grade and subject.');
-    state.questions = [];
-    showQuizArea(false);
-    return;
-  }
 
   if (requested < 1) {
     setFilterFeedback('Choose at least one question.');

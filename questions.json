@@ -150,5 +150,101 @@
     "question": "In a pictograph, each circle stands for 2 books. If there are 5 circles, how many books are shown?",
     "options": ["5", "7", "8", "10"],
     "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "place value",
+    "question": "In the number 342, what is the value of the digit in the tens place?",
+    "options": ["2", "4", "40", "400"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "add/subtract",
+    "question": "46 + 27 = ?",
+    "options": ["63", "69", "71", "73"],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "add/subtract",
+    "question": "82 - 39 = ?",
+    "options": ["33", "41", "43", "52"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "skip counting",
+    "question": "What number comes next in the pattern: 15, 20, 25, 30, ?",
+    "options": ["32", "33", "34", "35"],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "even/odd",
+    "question": "Which number is even?",
+    "options": ["37", "41", "58", "63"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "compare numbers",
+    "question": "Choose the correct symbol: 67 __ 76",
+    "options": ["<", "=", ">", "?"],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "time",
+    "question": "The hour hand is between 9 and 10, and the minute hand is on 4. What time is it?",
+    "options": ["9:04", "9:15", "9:20", "9:40"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "money",
+    "question": "You have two quarters, one dime, and one nickel. How much money do you have in cents?",
+    "options": ["40", "55", "60", "65"],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "length",
+    "question": "A ribbon is 48 cm long. If 23 cm are cut off, how many centimeters are left?",
+    "options": ["21", "23", "25", "27"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "arrays",
+    "question": "An array has 3 rows with 4 apples in each row. How many apples are there in total?",
+    "options": ["7", "10", "12", "14"],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "fractions",
+    "question": "What is 1/2 of 14?",
+    "options": ["6", "7", "8", "9"],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "shapes",
+    "question": "How many sides does a hexagon have?",
+    "options": ["4", "5", "6", "8"],
+    "answer": 2
   }
 ]
