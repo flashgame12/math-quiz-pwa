@@ -1,6 +1,7 @@
 const SW_VERSION = new URL(self.location.href).searchParams.get('v') || 'v1';
 const CACHE_NAME = `math-quiz-${SW_VERSION}`;
-const PRECACHE_PATHS = [
+const TIMEOUT_MS = 4000;
+const PRECACHE_PATHS = Array.from(new Set([
   '',
   'index.html',
   'styles.css',
@@ -9,12 +10,14 @@ const PRECACHE_PATHS = [
   'manifest.json',
   'icons/icon-192.png',
   'icons/icon-512.png'
-];
+])).map(toScopedUrl);
 
 function toScopedUrl(path) {
   // Use the SW registration scope as the base so this works from any subfolder.
   return new URL(path, self.registration.scope).toString();
 }
+
+const SHELL_FALLBACK = toScopedUrl('index.html');
 
 function isQuestionsRequest(request) {
   try {
@@ -25,7 +28,9 @@ function isQuestionsRequest(request) {
   }
 }
 
-async function cachePut(request, response) {
+async function safeCachePut(request, response) {
+  // Only cache successful or opaque responses; avoid polluting cache with errors.
+  if (!response || (!response.ok && response.type !== 'opaque')) return;
   const cache = await caches.open(CACHE_NAME);
   await cache.put(request, response);
 }
@@ -35,34 +40,38 @@ async function cacheMatch(request) {
   return cache.match(request);
 }
 
-async function networkFirst(request) {
+async function fetchWithTimeout(request, timeoutMs = TIMEOUT_MS) {
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeoutMs);
   try {
-    const res = await fetch(request);
-    void cachePut(request, res.clone());
+    return await fetch(request, { signal: controller.signal });
+  } finally {
+    clearTimeout(id);
+  }
+}
+
+async function networkFirst(request, { timeoutMs = TIMEOUT_MS, fallbackUrl } = {}) {
+  try {
+    const res = await fetchWithTimeout(request, timeoutMs);
+    if (res) void safeCachePut(request, res.clone());
     return res;
   } catch {
+    if (fallbackUrl) return cacheMatch(fallbackUrl);
     return cacheMatch(request);
   }
 }
 
-async function cacheFirst(request) {
+async function cacheFirst(request, { fallbackUrl } = {}) {
   const cached = await cacheMatch(request);
   if (cached) return cached;
-  const res = await fetch(request);
-  void cachePut(request, res.clone());
-  return res;
-}
-
-async function staleWhileRevalidate(request) {
-  const cached = await cacheMatch(request);
-  const fetchPromise = fetch(request)
-    .then(res => {
-      void cachePut(request, res.clone());
-      return res;
-    })
-    .catch(() => undefined);
-
-  return cached || fetchPromise || new Response('Offline', { status: 503 });
+  try {
+    const res = await fetch(request);
+    if (res) void safeCachePut(request, res.clone());
+    return res;
+  } catch {
+    if (fallbackUrl) return cacheMatch(fallbackUrl);
+    return new Response('Offline', { status: 503 });
+  }
 }
 
 function isAppShellRequest(request) {
@@ -85,7 +94,7 @@ function isAppShellRequest(request) {
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_PATHS.map(toScopedUrl)))
+    caches.open(CACHE_NAME).then(cache => cache.addAll(PRECACHE_PATHS))
   );
   self.skipWaiting();
 });
@@ -93,7 +102,9 @@ self.addEventListener('install', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
-      keys.map(k => { if(k !== CACHE_NAME) return caches.delete(k); })
+      keys
+        .filter(k => k.startsWith('math-quiz-') && k !== CACHE_NAME)
+        .map(k => caches.delete(k))
     ))
   );
   self.clients.claim();
@@ -111,20 +122,29 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Network-first for JSON (to get updates).
+  // Network-first for JSON (to get updates) with cache-busting.
   if (isQuestionsRequest(req)) {
-    event.respondWith(networkFirst(req));
+    const url = new URL(req.url);
+    url.searchParams.set('v', SW_VERSION);
+    const versionedReq = new Request(url.toString(), {
+      headers: req.headers,
+      mode: req.mode,
+      credentials: req.credentials,
+      redirect: req.redirect,
+      cache: 'no-cache'
+    });
+    event.respondWith(networkFirst(versionedReq, { timeoutMs: TIMEOUT_MS }));
     return;
   }
 
   // Keep the app shell fresh (important for iOS Safari caches).
   if (isAppShellRequest(req)) {
-    event.respondWith(networkFirst(req));
+    event.respondWith(networkFirst(req, { timeoutMs: TIMEOUT_MS, fallbackUrl: SHELL_FALLBACK }));
     return;
   }
 
-  // Cache-first for everything else, with an HTML fallback.
+  // Cache-first for everything else, with an HTML fallback for navigations/offline.
   event.respondWith(
-    cacheFirst(req).catch(() => cacheMatch(toScopedUrl('index.html')))
+    cacheFirst(req, { fallbackUrl: req.mode === 'navigate' ? SHELL_FALLBACK : undefined })
   );
 });
