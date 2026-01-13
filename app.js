@@ -23,7 +23,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '9';
+const BUILD_ID = '10';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -383,12 +383,6 @@ function startSession(event) {
   state.answered = false;
   resetResults();
   state.results.total = count;
-
-  if (count < requested) {
-    setFilterFeedback(`Only ${count} available for that selection. Using all of them.`);
-  } else {
-    setFilterFeedback(`Loaded ${count} question${count === 1 ? '' : 's'}.`);
-  }
 
   showQuizArea(true);
   showFilters(false);
