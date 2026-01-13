@@ -13,6 +13,7 @@ const ui = {
   filterFeedbackEl: document.getElementById('filter-feedback'),
   quizArea: document.getElementById('quiz-area'),
   homeBtn: document.getElementById('home'),
+  reviewBottomBtn: document.getElementById('review-bottom'),
   summaryEl: document.getElementById('summary'),
   summaryScoreEl: document.getElementById('summary-score'),
   summaryCorrectEl: document.getElementById('summary-correct'),
@@ -23,7 +24,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '11';
+const BUILD_ID = '12';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -83,6 +84,12 @@ const state = {
     responses: [],
     correct: 0,
     total: 0
+  },
+  review: {
+    active: false,
+    wrong: [],
+    index: 0,
+    overlay: null
   }
 };
 
@@ -125,6 +132,148 @@ function showHome(show) {
 function showSummary(show) {
   if (!ui.summaryEl) return;
   ui.summaryEl.hidden = !show;
+}
+
+function resetReviewState() {
+  destroyReviewOverlay();
+  state.review = { active: false, wrong: [], index: 0, overlay: null };
+  hideReviewMessage();
+}
+
+function showReviewMessage(text) {
+  if (!ui.summaryEl) return;
+  let msg = ui.summaryEl.querySelector('.review-empty');
+  if (!msg) {
+    msg = document.createElement('div');
+    msg.className = 'review-empty';
+    msg.setAttribute('role', 'status');
+    ui.summaryEl.insertBefore(msg, ui.summaryListEl || ui.summaryEl.lastElementChild);
+  }
+  msg.textContent = text;
+  msg.hidden = false;
+}
+
+function hideReviewMessage() {
+  if (!ui.summaryEl) return;
+  const msg = ui.summaryEl.querySelector('.review-empty');
+  if (msg) msg.hidden = true;
+}
+
+function destroyReviewOverlay() {
+  const overlayRefs = state.review.overlay;
+  if (!overlayRefs) return;
+
+  const { overlay, prevBtn, nextBtn, closeBtn, keyHandler } = overlayRefs;
+  prevBtn?.removeEventListener('click', goToPrevReview);
+  nextBtn?.removeEventListener('click', goToNextReview);
+  closeBtn?.removeEventListener('click', exitReviewMode);
+  if (keyHandler) window.removeEventListener('keydown', keyHandler);
+  overlay?.remove();
+  state.review.overlay = null;
+}
+
+function createReviewOverlay() {
+  const overlay = document.createElement('div');
+  overlay.className = 'review-overlay';
+  overlay.tabIndex = -1;
+
+  const panel = document.createElement('div');
+  panel.className = 'review-panel';
+  overlay.appendChild(panel);
+
+  const header = document.createElement('div');
+  header.className = 'review-header';
+  const progress = document.createElement('div');
+  progress.className = 'review-progress';
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'review-close';
+  closeBtn.type = 'button';
+  closeBtn.textContent = 'Close review';
+  header.appendChild(progress);
+  header.appendChild(closeBtn);
+
+  const questionEl = document.createElement('div');
+  questionEl.className = 'review-question';
+
+  const answers = document.createElement('div');
+  answers.className = 'review-answers';
+
+  const yourRow = document.createElement('div');
+  yourRow.className = 'review-row';
+  const yourLabel = document.createElement('span');
+  yourLabel.className = 'review-label';
+  yourLabel.textContent = 'Your answer';
+  const yourValue = document.createElement('span');
+  yourValue.className = 'review-value';
+  yourRow.appendChild(yourLabel);
+  yourRow.appendChild(yourValue);
+
+  const correctRow = document.createElement('div');
+  correctRow.className = 'review-row';
+  const correctLabel = document.createElement('span');
+  correctLabel.className = 'review-label';
+  correctLabel.textContent = 'Correct answer';
+  const correctValue = document.createElement('span');
+  correctValue.className = 'review-value';
+  correctRow.appendChild(correctLabel);
+  correctRow.appendChild(correctValue);
+
+  answers.appendChild(yourRow);
+  answers.appendChild(correctRow);
+
+  const nav = document.createElement('div');
+  nav.className = 'review-nav';
+  const prevBtn = document.createElement('button');
+  prevBtn.className = 'review-nav-btn';
+  prevBtn.type = 'button';
+  prevBtn.textContent = 'Previous';
+  const nextBtn = document.createElement('button');
+  nextBtn.className = 'review-nav-btn primary';
+  nextBtn.type = 'button';
+  nextBtn.textContent = 'Next';
+  nav.appendChild(prevBtn);
+  nav.appendChild(nextBtn);
+
+  panel.appendChild(header);
+  panel.appendChild(questionEl);
+  panel.appendChild(answers);
+  panel.appendChild(nav);
+
+  const keyHandler = event => {
+    if (!state.review.active) return;
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      goToPrevReview();
+    }
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      goToNextReview();
+    }
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      exitReviewMode();
+    }
+  };
+
+  prevBtn.addEventListener('click', goToPrevReview);
+  nextBtn.addEventListener('click', goToNextReview);
+  closeBtn.addEventListener('click', exitReviewMode);
+  window.addEventListener('keydown', keyHandler);
+
+  document.body.appendChild(overlay);
+  overlay.focus({ preventScroll: true });
+
+  return {
+    overlay,
+    progressEl: progress,
+    questionEl,
+    yourEl: yourValue,
+    correctEl: correctValue,
+    prevBtn,
+    nextBtn,
+    closeBtn,
+    keyHandler
+  };
 }
 
 function resetQuizUi(message) {
@@ -300,6 +449,8 @@ function showReadyState() {
 function renderSummary() {
   if (!ui.summaryEl) return;
 
+  resetReviewState();
+
   const total = state.results.total || state.questions.length || 0;
   const correct = state.results.correct;
   const wrong = Math.max(total - correct, 0);
@@ -315,6 +466,7 @@ function renderSummary() {
     state.results.responses.forEach((resp, idx) => {
       const item = document.createElement('div');
       item.className = 'summary-item';
+      item.tabIndex = -1;
 
       const qEl = document.createElement('div');
       qEl.className = 'summary-question';
@@ -335,6 +487,57 @@ function renderSummary() {
       ui.summaryListEl.appendChild(item);
     });
   }
+}
+
+function renderReviewItem() {
+  const { wrong, index, overlay } = state.review;
+  const item = wrong[index];
+  if (!item || !overlay) {
+    exitReviewMode();
+    return;
+  }
+
+  overlay.questionEl.textContent = item.question;
+  overlay.yourEl.textContent = item.options[item.chosen] ?? '—';
+  overlay.yourEl.className = `review-value ${item.correct ? 'correct' : 'wrong'}`;
+  overlay.correctEl.textContent = item.options[item.correctIndex] ?? '—';
+  overlay.correctEl.className = 'review-value correct';
+  overlay.progressEl.textContent = `${index + 1} of ${wrong.length}`;
+  overlay.prevBtn.disabled = index === 0;
+  overlay.nextBtn.disabled = index >= wrong.length - 1;
+}
+
+function enterReviewMode() {
+  const wrong = state.results.responses.filter(resp => !resp.correct);
+  if (!wrong.length) {
+    destroyReviewOverlay();
+    state.review = { active: false, wrong: [], index: 0, overlay: null };
+    showReviewMessage('No wrong answers to review 🎉');
+    return;
+  }
+
+  hideReviewMessage();
+  const overlay = createReviewOverlay();
+  state.review = { active: true, wrong, index: 0, overlay };
+  renderReviewItem();
+}
+
+function exitReviewMode() {
+  resetReviewState();
+}
+
+function goToPrevReview() {
+  if (!state.review.active) return;
+  if (state.review.index === 0) return;
+  state.review.index -= 1;
+  renderReviewItem();
+}
+
+function goToNextReview() {
+  if (!state.review.active) return;
+  if (state.review.index >= state.review.wrong.length - 1) return;
+  state.review.index += 1;
+  renderReviewItem();
 }
 
 function showSessionComplete() {
@@ -480,6 +683,9 @@ function goToNextQuestion() {
 ui.nextBtn.addEventListener('click', goToNextQuestion);
 ui.homeBtn?.addEventListener('click', () => {
   showReadyState();
+});
+ui.reviewBottomBtn?.addEventListener('click', () => {
+  enterReviewMode();
 });
 
 applyBuildIdToManifestLink();
