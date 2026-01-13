@@ -18,13 +18,12 @@ const ui = {
   summaryCorrectEl: document.getElementById('summary-correct'),
   summaryWrongEl: document.getElementById('summary-wrong'),
   summaryTotalEl: document.getElementById('summary-total'),
-  summaryListEl: document.getElementById('summary-list'),
-  summaryRestartBtn: document.getElementById('summary-restart')
+  summaryListEl: document.getElementById('summary-list')
 };
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '8';
+const BUILD_ID = '9';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -486,9 +485,6 @@ function goToNextQuestion() {
 
 ui.nextBtn.addEventListener('click', goToNextQuestion);
 ui.homeBtn?.addEventListener('click', () => {
-  showReadyState();
-});
-ui.summaryRestartBtn?.addEventListener('click', () => {
   showReadyState();
 });
 
