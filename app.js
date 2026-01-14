@@ -26,7 +26,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '13';
+const BUILD_ID = '14';
 
 function getServiceWorkerVersionFromController() {
   try {
