@@ -42,6 +42,16 @@
   {
     "subject": "math",
     "grade": "3",
+    "topic": "fractions",
+    "question": "Shabnam has eaten some chikki from three sides. Based on the picture, how much chikki is left?",
+    "options": ["less than half", "more than half", "half", "about three quarters"],
+    "answer": 1,
+    "image": "icons/chikki-grid.svg",
+    "imageAlt": "Grid showing more than half of the chikki remaining."
+  },
+  {
+    "subject": "math",
+    "grade": "3",
     "topic": "length",
     "question": "A ribbon is 2 meters long. If 65 centimeters are cut off, how many centimeters of ribbon are left?",
     "options": ["120", "135", "140", "150"],

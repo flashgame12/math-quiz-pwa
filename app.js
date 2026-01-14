@@ -1,5 +1,7 @@
 const ui = {
   questionEl: document.getElementById('question'),
+  questionMediaEl: document.getElementById('question-media'),
+  questionImageEl: document.getElementById('question-image'),
   optionsEl: document.getElementById('options'),
   feedbackEl: document.getElementById('feedback'),
   nextBtn: document.getElementById('next'),
@@ -24,7 +26,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '12';
+const BUILD_ID = '13';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -195,6 +197,14 @@ function createReviewOverlay() {
   const questionEl = document.createElement('div');
   questionEl.className = 'review-question';
 
+  const media = document.createElement('div');
+  media.className = 'review-media';
+  media.hidden = true;
+  const mediaImg = document.createElement('img');
+  mediaImg.loading = 'lazy';
+  mediaImg.alt = '';
+  media.appendChild(mediaImg);
+
   const answers = document.createElement('div');
   answers.className = 'review-answers';
 
@@ -236,6 +246,7 @@ function createReviewOverlay() {
 
   panel.appendChild(header);
   panel.appendChild(questionEl);
+  panel.appendChild(media);
   panel.appendChild(answers);
   panel.appendChild(nav);
 
@@ -267,6 +278,8 @@ function createReviewOverlay() {
     overlay,
     progressEl: progress,
     questionEl,
+    mediaEl: media,
+    mediaImg,
     yourEl: yourValue,
     correctEl: correctValue,
     prevBtn,
@@ -319,7 +332,9 @@ function normalizeQuestions(data) {
       topic: String(q.topic || '').trim(),
       question: q.question,
       options: q.options.map(String),
-      answer: q.answer
+      answer: q.answer,
+      image: typeof q.image === 'string' ? q.image.trim() : '',
+      imageAlt: typeof q.imageAlt === 'string' ? q.imageAlt.trim() : ''
     }));
 }
 
@@ -497,6 +512,7 @@ function renderReviewItem() {
     return;
   }
 
+  renderReviewMedia(item, overlay);
   overlay.questionEl.textContent = item.question;
   overlay.yourEl.textContent = item.options[item.chosen] ?? '—';
   overlay.yourEl.className = `review-value ${item.correct ? 'correct' : 'wrong'}`;
@@ -505,6 +521,22 @@ function renderReviewItem() {
   overlay.progressEl.textContent = `${index + 1} of ${wrong.length}`;
   overlay.prevBtn.disabled = index === 0;
   overlay.nextBtn.disabled = index >= wrong.length - 1;
+}
+
+function renderReviewMedia(item, overlay) {
+  if (!overlay?.mediaEl || !overlay?.mediaImg) return;
+  const src = item.image || '';
+
+  if (!src) {
+    overlay.mediaEl.hidden = true;
+    overlay.mediaImg.removeAttribute('src');
+    overlay.mediaImg.alt = '';
+    return;
+  }
+
+  overlay.mediaEl.hidden = false;
+  overlay.mediaImg.src = src;
+  overlay.mediaImg.alt = item.imageAlt || 'Question image';
 }
 
 function enterReviewMode() {
@@ -615,6 +647,22 @@ async function loadQuestions() {
   showReadyState();
 }
 
+function renderQuestionMedia(question) {
+  if (!ui.questionMediaEl || !ui.questionImageEl) return;
+  const src = question.image || '';
+
+  if (!src) {
+    ui.questionMediaEl.hidden = true;
+    ui.questionImageEl.removeAttribute('src');
+    ui.questionImageEl.alt = '';
+    return;
+  }
+
+  ui.questionMediaEl.hidden = false;
+  ui.questionImageEl.alt = question.imageAlt || 'Question image';
+  ui.questionImageEl.src = src;
+}
+
 function renderQuestion(index) {
   if (!state.questions.length) {
     showReadyState();
@@ -632,6 +680,7 @@ function renderQuestion(index) {
   }
 
   ui.questionEl.textContent = q.question;
+  renderQuestionMedia(q);
   ui.optionsEl.innerHTML = '';
   setFeedback('', '');
   setNextVisible(false);
@@ -659,6 +708,8 @@ function chooseAnswer(optionIndex) {
     options: q.options,
     chosen: optionIndex,
     correctIndex: q.answer,
+    image: q.image,
+    imageAlt: q.imageAlt,
     correct
   });
   if (correct) {
