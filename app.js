@@ -26,7 +26,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '16';
+const BUILD_ID = '17';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -382,6 +382,18 @@ function shuffle(list) {
   return arr;
 }
 
+function prepareQuestionForSession(question) {
+  const answerText = question.options[question.answer];
+  const shuffledOptions = shuffle(question.options);
+  const newAnswerIndex = answerText ? shuffledOptions.indexOf(answerText) : -1;
+
+  return {
+    ...question,
+    options: shuffledOptions,
+    answer: newAnswerIndex >= 0 ? newAnswerIndex : 0
+  };
+}
+
 function normalizeFilterValue(value) {
   return value === '__all__' ? '' : (value || '');
 }
@@ -610,10 +622,10 @@ function startSession(event) {
     return;
   }
 
-  const shuffled = shuffle(pool);
-  const count = Math.min(requested, shuffled.length);
-
-  state.questions = shuffled.slice(0, count);
+  const count = Math.min(requested, pool.length);
+  state.questions = shuffle(pool)
+    .slice(0, count)
+    .map(q => prepareQuestionForSession(q));
   state.currentIndex = 0;
   state.answered = false;
   resetResults();
