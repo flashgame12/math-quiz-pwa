@@ -1,180 +1,15 @@
 [
   {
     "subject": "math",
-    "grade": "3",
-    "topic": "place value",
-    "question": "In the number 4,582, what is the value of the digit 5?",
-    "options": ["5", "50", "500", "5000"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "add/subtract",
-    "question": "457 + 268 = ?",
-    "options": ["615", "725", "735", "815"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "multiply",
-    "question": "8 x 6 = ?",
-    "options": ["42", "48", "54", "56"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "divide",
-    "question": "24 / 3 = ?",
-    "options": ["6", "7", "8", "9"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "fractions",
-    "question": "What is 1/4 of 12 apples?",
-    "options": ["2", "3", "4", "6"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "fractions",
-    "question": "Shabnam has eaten some chikki from three sides. Based on the picture, how much chikki is left?",
-    "options": ["less than half", "more than half", "half", "about three quarters"],
-    "answer": 1,
-    "image": "icons/chikki-grid.svg",
-    "imageAlt": "Grid showing more than half of the chikki remaining."
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "length",
-    "question": "A ribbon is 2 meters long. If 65 centimeters are cut off, how many centimeters of ribbon are left?",
-    "options": ["120", "135", "140", "150"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "time",
-    "question": "The hour hand is between 3 and 4, and the minute hand is on 6. What time is it?",
-    "options": ["3:00", "3:30", "4:30", "6:30"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "money",
-    "question": "Riya buys a pencil for \u20b98 and an eraser for \u20b96. She gives the shopkeeper \u20b920. How much change should she get?",
-    "options": ["\u20b94", "\u20b95", "\u20b96", "\u20b97"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "shapes",
-    "question": "How many corners (vertices) does a cube have?",
-    "options": ["4", "6", "8", "12"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "data",
-    "question": "A tally chart has 7 tally marks. Each tally mark stands for 2 students. How many students are there in total?",
-    "options": ["9", "12", "14", "16"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "patterns",
-    "question": "What number comes next in the pattern: 5, 10, 15, 20, ?",
-    "options": ["22", "23", "24", "25"],
-    "answer": 3
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "mass",
-    "question": "A packet of rice weighs 2 kg. Another packet weighs 500 g. What is the total weight?",
-    "options": ["2.25 kg", "2.5 kg", "2.75 kg", "3 kg"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "capacity",
-    "question": "A jug holds 2 liters of water. You pour in 750 milliliters. How much space is left in the jug?",
-    "options": ["750 mL", "1 L", "1.25 L", "1.5 L"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "calendar",
-    "question": "How many days are there in February in a leap year?",
-    "options": ["28", "29", "30", "31"],
-    "answer": 1
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "perimeter",
-    "question": "What is the perimeter of a rectangle that is 6 cm long and 4 cm wide?",
-    "options": ["10 cm", "12 cm", "18 cm", "20 cm"],
-    "answer": 3
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "word problem",
-    "question": "A box has 24 crayons. If 9 crayons are used, how many crayons are left in the box?",
-    "options": ["13", "14", "15", "16"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "estimation",
-    "question": "Round 248 to the nearest ten.",
-    "options": ["240", "245", "250", "260"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "symmetry",
-    "question": "How many lines of symmetry does a square have?",
-    "options": ["1", "2", "3", "4"],
-    "answer": 3
-  },
-  {
-    "subject": "math",
-    "grade": "3",
-    "topic": "pictograph",
-    "question": "In a pictograph, each circle stands for 2 books. If there are 5 circles, how many books are shown?",
-    "options": ["5", "7", "8", "10"],
-    "answer": 3
-  },
-  {
-    "subject": "math",
-    "grade": "2",
-    "topic": "place value",
-    "question": "In the number 342, what is the value of the digit in the tens place?",
-    "options": ["2", "4", "40", "400"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
     "grade": "2",
     "topic": "add/subtract",
     "question": "46 + 27 = ?",
-    "options": ["63", "69", "71", "73"],
+    "options": [
+      "63",
+      "69",
+      "71",
+      "73"
+    ],
     "answer": 3
   },
   {
@@ -182,55 +17,64 @@
     "grade": "2",
     "topic": "add/subtract",
     "question": "82 - 39 = ?",
-    "options": ["33", "41", "43", "52"],
+    "options": [
+      "33",
+      "41",
+      "43",
+      "52"
+    ],
     "answer": 2
   },
   {
     "subject": "math",
-    "grade": "2",
-    "topic": "skip counting",
-    "question": "What number comes next in the pattern: 15, 20, 25, 30, ?",
-    "options": ["32", "33", "34", "35"],
+    "grade": "3",
+    "topic": "add/subtract",
+    "question": "150 - 68 = ?",
+    "options": [
+      "72",
+      "82",
+      "88",
+      "98"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "add/subtract",
+    "question": "457 + 268 = ?",
+    "options": [
+      "615",
+      "725",
+      "735",
+      "815"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "add/subtract",
+    "question": "63 + 29 = ?",
+    "options": [
+      "82",
+      "88",
+      "90",
+      "92"
+    ],
     "answer": 3
   },
   {
     "subject": "math",
     "grade": "2",
-    "topic": "even/odd",
-    "question": "Which number is even?",
-    "options": ["37", "41", "58", "63"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "2",
-    "topic": "compare numbers",
-    "question": "Choose the correct symbol: 67 __ 76",
-    "options": ["<", "=", ">", "?"],
-    "answer": 0
-  },
-  {
-    "subject": "math",
-    "grade": "2",
-    "topic": "time",
-    "question": "The hour hand is between 9 and 10, and the minute hand is on 4. What time is it?",
-    "options": ["9:04", "9:15", "9:20", "9:40"],
-    "answer": 2
-  },
-  {
-    "subject": "math",
-    "grade": "2",
-    "topic": "money",
-    "question": "You have two quarters, one dime, and one nickel. How much money do you have in cents?",
-    "options": ["40", "55", "60", "65"],
-    "answer": 3
-  },
-  {
-    "subject": "math",
-    "grade": "2",
-    "topic": "length",
-    "question": "A ribbon is 48 cm long. If 23 cm are cut off, how many centimeters are left?",
-    "options": ["21", "23", "25", "27"],
+    "topic": "arrays",
+    "question": "An array has 3 rows with 3 squares in each row. How many squares are there?",
+    "options": [
+      "6",
+      "8",
+      "9",
+      "12"
+    ],
     "answer": 2
   },
   {
@@ -238,15 +82,1093 @@
     "grade": "2",
     "topic": "arrays",
     "question": "An array has 3 rows with 4 apples in each row. How many apples are there in total?",
-    "options": ["7", "10", "12", "14"],
+    "options": [
+      "7",
+      "10",
+      "12",
+      "14"
+    ],
     "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "arrays",
+    "question": "An array has 4 columns with 6 apples in each column. How many apples are there?",
+    "options": [
+      "18",
+      "20",
+      "22",
+      "24"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "arrays",
+    "question": "An array has 5 rows with 2 stars in each row. How many stars are there?",
+    "options": [
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "arrays",
+    "question": "You add another row of 5 to an array that had 3 rows of 5. How many items are there now?",
+    "options": [
+      "15",
+      "20",
+      "25",
+      "30"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "calendar",
+    "question": "How many days are in June?",
+    "options": [
+      "28",
+      "29",
+      "30",
+      "31"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "calendar",
+    "question": "How many days are there in February in a leap year?",
+    "options": [
+      "28",
+      "29",
+      "30",
+      "31"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "calendar",
+    "question": "How many months in a year have 31 days?",
+    "options": [
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "calendar",
+    "question": "If today is Wednesday, what day will it be 3 days later?",
+    "options": [
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "calendar",
+    "question": "What month comes after September?",
+    "options": [
+      "August",
+      "September",
+      "October",
+      "November"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "capacity",
+    "question": "A bottle holds 500 milliliters of juice. How many milliliters are in 3 bottles?",
+    "options": [
+      "500",
+      "1000",
+      "1500",
+      "2000"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "capacity",
+    "question": "A bucket holds 10 liters. If you pour out 4 liters, how much remains?",
+    "options": [
+      "4 liters",
+      "5 liters",
+      "6 liters",
+      "7 liters"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "capacity",
+    "question": "A jug has 1.5 liters of water and you add 500 milliliters. How much water is in the jug now?",
+    "options": [
+      "1.5 liters",
+      "1.8 liters",
+      "2 liters",
+      "2.5 liters"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "capacity",
+    "question": "A jug holds 2 liters of water. You pour in 750 milliliters. How much space is left in the jug?",
+    "options": [
+      "750 mL",
+      "1 L",
+      "1.25 L",
+      "1.5 L"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "capacity",
+    "question": "Which is more: 1 liter or 800 milliliters?",
+    "options": [
+      "1 liter",
+      "800 milliliters",
+      "They are the same",
+      "Cannot tell"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "compare numbers",
+    "question": "Choose the correct symbol: 450 __ 405",
+    "options": [
+      "<",
+      "=",
+      ">",
+      "?"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "compare numbers",
+    "question": "Choose the correct symbol: 53 __ 35",
+    "options": [
+      "<",
+      "=",
+      ">",
+      "?"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "compare numbers",
+    "question": "Choose the correct symbol: 67 __ 76",
+    "options": [
+      "<",
+      "=",
+      ">",
+      "?"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "compare numbers",
+    "question": "Fill in the blank: 100 __ 99",
+    "options": [
+      "<",
+      "=",
+      ">",
+      "?"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "compare numbers",
+    "question": "Which of these numbers is the smallest?",
+    "options": [
+      "82",
+      "74",
+      "79",
+      "88"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "data",
+    "question": "A bar graph shows 10 cats and 6 dogs. How many more cats than dogs are there?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "6"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "data",
+    "question": "A survey shows 12 students like apples and 8 like bananas. How many students were surveyed in total?",
+    "options": [
+      "18",
+      "19",
+      "20",
+      "22"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "data",
+    "question": "A table shows 5 red cars, 7 blue cars, and 4 green cars. Which color is most common?",
+    "options": [
+      "red",
+      "blue",
+      "green",
+      "all equal"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "data",
+    "question": "A tally chart has 7 tally marks. Each tally mark stands for 2 students. How many students are there in total?",
+    "options": [
+      "9",
+      "12",
+      "14",
+      "16"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "data",
+    "question": "In a tally chart, each tally mark stands for 1 vote. If you see |||| |||, how many votes is that?",
+    "options": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "divide",
+    "question": "24 / 3 = ?",
+    "options": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "divide",
+    "question": "36 / 6 = ?",
+    "options": [
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "divide",
+    "question": "45 / 5 = ?",
+    "options": [
+      "7",
+      "8",
+      "9",
+      "10"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "divide",
+    "question": "56 / 7 = ?",
+    "options": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "divide",
+    "question": "81 / 9 = ?",
+    "options": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "estimation",
+    "question": "Estimate the sum of 198 and 305 to the nearest ten.",
+    "options": [
+      "480",
+      "500",
+      "510",
+      "530"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "estimation",
+    "question": "Round 1,249 to the nearest hundred.",
+    "options": [
+      "1,100",
+      "1,200",
+      "1,300",
+      "1,400"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "estimation",
+    "question": "Round 248 to the nearest ten.",
+    "options": [
+      "240",
+      "245",
+      "250",
+      "260"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "estimation",
+    "question": "Round 563 to the nearest ten.",
+    "options": [
+      "550",
+      "560",
+      "570",
+      "600"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "estimation",
+    "question": "Which number is closest to 300?",
+    "options": [
+      "299",
+      "289",
+      "279",
+      "269"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "even/odd",
+    "question": "If you add two odd numbers, the result is always which type of number?",
+    "options": [
+      "even",
+      "odd",
+      "prime",
+      "cannot tell"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "even/odd",
+    "question": "Is 0 an even or odd number?",
+    "options": [
+      "even",
+      "odd",
+      "neither",
+      "both"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "even/odd",
+    "question": "Which number is even?",
+    "options": [
+      "37",
+      "41",
+      "58",
+      "63"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "even/odd",
+    "question": "Which number is odd?",
+    "options": [
+      "24",
+      "30",
+      "47",
+      "60"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "even/odd",
+    "question": "Which pair of numbers are both even?",
+    "options": [
+      "15 and 21",
+      "18 and 24",
+      "17 and 19",
+      "13 and 15"
+    ],
+    "answer": 1
   },
   {
     "subject": "math",
     "grade": "2",
     "topic": "fractions",
     "question": "What is 1/2 of 14?",
-    "options": ["6", "7", "8", "9"],
+    "options": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "fractions",
+    "question": "Shabnam has eaten some chikki from three sides. Based on the picture, how much chikki is left?",
+    "options": [
+      "less than half",
+      "more than half",
+      "half",
+      "about three quarters"
+    ],
+    "answer": 1,
+    "image": "icons/chikki-grid.svg",
+    "imageAlt": "Grid showing more than half of the chikki remaining."
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "fractions",
+    "question": "What is 1/4 of 12 apples?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "6"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "fractions",
+    "question": "What is 3/5 of 20?",
+    "options": [
+      "10",
+      "11",
+      "12",
+      "15"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "fractions",
+    "question": "Which fraction is equivalent to 2/4?",
+    "options": [
+      "1/2",
+      "2/3",
+      "3/4",
+      "4/2"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "length",
+    "question": "A pencil is 12 centimeters and a pen is 8 centimeters. What is their total length?",
+    "options": [
+      "18",
+      "20",
+      "22",
+      "24"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "length",
+    "question": "A ribbon is 48 cm long. If 23 cm are cut off, how many centimeters are left?",
+    "options": [
+      "21",
+      "23",
+      "25",
+      "27"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "length",
+    "question": "Convert 3 meters to centimeters.",
+    "options": [
+      "30",
+      "300",
+      "3000",
+      "30,000"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "length",
+    "question": "A ribbon is 2 meters long. If 65 centimeters are cut off, how many centimeters of ribbon are left?",
+    "options": [
+      "120",
+      "135",
+      "140",
+      "150"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "length",
+    "question": "A rope is 150 centimeters long. If you cut off 45 centimeters, how many centimeters are left?",
+    "options": [
+      "95",
+      "100",
+      "105",
+      "115"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "mass",
+    "question": "A bag has 250 grams of sugar. How many grams are in 4 bags?",
+    "options": [
+      "250 grams",
+      "500 grams",
+      "750 grams",
+      "1000 grams"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "mass",
+    "question": "A packet of rice weighs 2 kg. Another packet weighs 500 g. What is the total weight?",
+    "options": [
+      "2.25 kg",
+      "2.5 kg",
+      "2.75 kg",
+      "3 kg"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "mass",
+    "question": "A watermelon weighs 3 kilograms and a melon weighs 2 kilograms. What is their total weight?",
+    "options": [
+      "3 kg",
+      "4 kg",
+      "5 kg",
+      "6 kg"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "mass",
+    "question": "Convert 2000 grams to kilograms.",
+    "options": [
+      "1 kilogram",
+      "2 kilograms",
+      "3 kilograms",
+      "4 kilograms"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "mass",
+    "question": "Which is heavier: 750 grams or 1 kilogram?",
+    "options": [
+      "750 grams",
+      "1 kilogram",
+      "They are the same",
+      "Cannot tell"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "money",
+    "question": "You have 3 quarters and 2 dimes. How many cents do you have?",
+    "options": [
+      "65",
+      "85",
+      "95",
+      "105"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "money",
+    "question": "You have two quarters, one dime, and one nickel. How much money do you have in cents?",
+    "options": [
+      "40",
+      "55",
+      "60",
+      "65"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "money",
+    "question": "An item costs $15 and you pay $20. How much change should you get?",
+    "options": [
+      "$3",
+      "$4",
+      "$5",
+      "$6"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "money",
+    "question": "Riya buys a pencil for \u20b98 and an eraser for \u20b96. She gives the shopkeeper \u20b920. How much change should she get?",
+    "options": [
+      "\u20b94",
+      "\u20b95",
+      "\u20b96",
+      "\u20b97"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "money",
+    "question": "You have five $1 bills and four $5 bills. How much money do you have in total?",
+    "options": [
+      "$20",
+      "$25",
+      "$30",
+      "$35"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "multiply",
+    "question": "4 x 8 = ?",
+    "options": [
+      "24",
+      "28",
+      "32",
+      "36"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "multiply",
+    "question": "6 x 5 = ?",
+    "options": [
+      "11",
+      "25",
+      "30",
+      "35"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "multiply",
+    "question": "7 x 4 = ?",
+    "options": [
+      "24",
+      "28",
+      "32",
+      "34"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "multiply",
+    "question": "8 x 6 = ?",
+    "options": [
+      "42",
+      "48",
+      "54",
+      "56"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "multiply",
+    "question": "9 x 3 = ?",
+    "options": [
+      "18",
+      "21",
+      "24",
+      "27"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "patterns",
+    "question": "What comes next in the pattern: 5, 10, 20, 40, ?",
+    "options": [
+      "50",
+      "60",
+      "70",
+      "80"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "patterns",
+    "question": "What comes next in the shape pattern: triangle, square, triangle, square, ?",
+    "options": [
+      "circle",
+      "triangle",
+      "square",
+      "rectangle"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "patterns",
+    "question": "What number comes next in the pattern: 1, 1, 2, 3, 5, ?",
+    "options": [
+      "6",
+      "7",
+      "8",
+      "9"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "patterns",
+    "question": "What number comes next in the pattern: 2, 4, 6, 8, ?",
+    "options": [
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "patterns",
+    "question": "What number comes next in the pattern: 5, 10, 15, 20, ?",
+    "options": [
+      "22",
+      "23",
+      "24",
+      "25"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "perimeter",
+    "question": "A triangle has sides of 4 cm, 6 cm, and 5 cm. What is its perimeter?",
+    "options": [
+      "14 cm",
+      "15 cm",
+      "16 cm",
+      "17 cm"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "perimeter",
+    "question": "What is the perimeter of a rectangle that is 10 cm long and 3 cm wide?",
+    "options": [
+      "20 cm",
+      "24 cm",
+      "26 cm",
+      "28 cm"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "perimeter",
+    "question": "What is the perimeter of a rectangle that is 6 cm long and 4 cm wide?",
+    "options": [
+      "10 cm",
+      "12 cm",
+      "18 cm",
+      "20 cm"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "perimeter",
+    "question": "What is the perimeter of a rectangle that is 9 m long and 2 m wide?",
+    "options": [
+      "18 m",
+      "20 m",
+      "22 m",
+      "24 m"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "perimeter",
+    "question": "What is the perimeter of a square with side length 5 cm?",
+    "options": [
+      "15 cm",
+      "20 cm",
+      "25 cm",
+      "30 cm"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "pictograph",
+    "question": "Each heart stands for 4 votes. If there are 7 hearts, how many votes are there?",
+    "options": [
+      "24",
+      "26",
+      "28",
+      "30"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "pictograph",
+    "question": "Each smiley stands for 5 points. If you see 4 smileys, how many points is that?",
+    "options": [
+      "10",
+      "15",
+      "20",
+      "25"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "pictograph",
+    "question": "Each square stands for 3 cars. If there are 5 squares, how many cars are shown?",
+    "options": [
+      "9",
+      "12",
+      "15",
+      "18"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "pictograph",
+    "question": "In a pictograph, each circle stands for 2 books. If there are 5 circles, how many books are shown?",
+    "options": [
+      "5",
+      "7",
+      "8",
+      "10"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "pictograph",
+    "question": "In a pictograph, each star stands for 2 books. If there are 6 stars, how many books are shown?",
+    "options": [
+      "8",
+      "10",
+      "12",
+      "14"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "place value",
+    "question": "In the number 342, what is the value of the digit in the tens place?",
+    "options": [
+      "2",
+      "4",
+      "40",
+      "400"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "place value",
+    "question": "In the number 541, what is the value of the digit 5?",
+    "options": [
+      "5",
+      "50",
+      "500",
+      "5000"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "place value",
+    "question": "In the number 4,582, what is the value of the digit 5?",
+    "options": [
+      "5",
+      "50",
+      "500",
+      "5000"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "place value",
+    "question": "In the number 7,309, what is the value of the digit 7?",
+    "options": [
+      "7",
+      "70",
+      "700",
+      "7000"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "place value",
+    "question": "Which digit is in the hundreds place of 4,215?",
+    "options": [
+      "4",
+      "2",
+      "1",
+      "5"
+    ],
     "answer": 1
   },
   {
@@ -254,7 +1176,324 @@
     "grade": "2",
     "topic": "shapes",
     "question": "How many sides does a hexagon have?",
-    "options": ["4", "5", "6", "8"],
+    "options": [
+      "4",
+      "5",
+      "6",
+      "8"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "shapes",
+    "question": "How many sides does a rectangle have?",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "shapes",
+    "question": "Which shape has no corners?",
+    "options": [
+      "triangle",
+      "square",
+      "circle",
+      "rectangle"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "shapes",
+    "question": "How many corners (vertices) does a cube have?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "12"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "shapes",
+    "question": "How many faces does a cube have?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "12"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "skip counting",
+    "question": "Skip counting by 10s starting at 70: 70, 80, 90, ?",
+    "options": [
+      "95",
+      "100",
+      "105",
+      "110"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "skip counting",
+    "question": "Skip counting by 2s starting at 11: 11, 13, 15, 17, ?",
+    "options": [
+      "18",
+      "19",
+      "20",
+      "21"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "skip counting",
+    "question": "Skip counting by 3s starting at 6: 6, 9, 12, 15, ?",
+    "options": [
+      "16",
+      "17",
+      "18",
+      "21"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "skip counting",
+    "question": "Skip counting by 5s starting at 20: 20, 25, 30, 35, ?",
+    "options": [
+      "38",
+      "39",
+      "40",
+      "45"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "skip counting",
+    "question": "What number comes next in the pattern: 15, 20, 25, 30, ?",
+    "options": [
+      "32",
+      "33",
+      "34",
+      "35"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "symmetry",
+    "question": "How many lines of symmetry does a rectangle (not a square) have?",
+    "options": [
+      "0",
+      "1",
+      "2",
+      "4"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "symmetry",
+    "question": "How many lines of symmetry does a regular hexagon have?",
+    "options": [
+      "2",
+      "3",
+      "4",
+      "6"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "symmetry",
+    "question": "How many lines of symmetry does a square have?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "symmetry",
+    "question": "Which letter has a vertical line of symmetry?",
+    "options": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "symmetry",
+    "question": "Which shape has exactly one line of symmetry?",
+    "options": [
+      "circle",
+      "equilateral triangle",
+      "isosceles triangle",
+      "square"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "time",
+    "question": "How many minutes are there in 2 hours?",
+    "options": [
+      "60",
+      "90",
+      "100",
+      "120"
+    ],
+    "answer": 3
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "time",
+    "question": "The hour hand is between 9 and 10, and the minute hand is on 4. What time is it?",
+    "options": [
+      "9:04",
+      "9:15",
+      "9:20",
+      "9:40"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "2",
+    "topic": "time",
+    "question": "The minute hand is on 12 and the hour hand is on 7. What time is it?",
+    "options": [
+      "7:00",
+      "7:30",
+      "12:07",
+      "7:12"
+    ],
+    "answer": 0
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "time",
+    "question": "If it is 2:15 now, what time will it be 45 minutes later?",
+    "options": [
+      "2:45",
+      "3:00",
+      "3:15",
+      "3:45"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "time",
+    "question": "The hour hand is between 3 and 4, and the minute hand is on 6. What time is it?",
+    "options": [
+      "3:00",
+      "3:30",
+      "4:30",
+      "6:30"
+    ],
+    "answer": 1
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "word problem",
+    "question": "A baker made 36 cupcakes and sold 29. How many cupcakes remain?",
+    "options": [
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "word problem",
+    "question": "A box has 24 crayons. If 9 crayons are used, how many crayons are left in the box?",
+    "options": [
+      "13",
+      "14",
+      "15",
+      "16"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "word problem",
+    "question": "A class has 4 rows of 6 chairs. How many chairs are there in total?",
+    "options": [
+      "20",
+      "22",
+      "24",
+      "26"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "word problem",
+    "question": "Maya has 18 stickers. She gives 7 to a friend. How many stickers does she have left?",
+    "options": [
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "answer": 2
+  },
+  {
+    "subject": "math",
+    "grade": "3",
+    "topic": "word problem",
+    "question": "There are 3 boxes with 9 books in each box. How many books are there altogether?",
+    "options": [
+      "18",
+      "24",
+      "27",
+      "30"
+    ],
     "answer": 2
   }
 ]
