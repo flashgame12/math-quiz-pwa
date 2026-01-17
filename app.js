@@ -21,12 +21,14 @@ const ui = {
   summaryCorrectEl: document.getElementById('summary-correct'),
   summaryWrongEl: document.getElementById('summary-wrong'),
   summaryTotalEl: document.getElementById('summary-total'),
-  summaryListEl: document.getElementById('summary-list')
+  summaryListEl: document.getElementById('summary-list'),
+  skillSummaryEl: document.getElementById('skill-summary'),
+  skillSummaryListEl: document.getElementById('skill-summary-list')
 };
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '17';
+const BUILD_ID = '18';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -351,6 +353,13 @@ function uniqueValues(list, key, predicate) {
   return Array.from(values).sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }));
 }
 
+const FALLBACK_SKILL = 'Other skills';
+
+function toSkillLabel(topic) {
+  const label = typeof topic === 'string' ? topic.trim() : '';
+  return label || FALLBACK_SKILL;
+}
+
 function populateSelect(selectEl, values, placeholder, defaultValue = '') {
   if (!selectEl) return;
   const previousValue = selectEl.value;
@@ -488,6 +497,9 @@ function renderSummary() {
   if (ui.summaryWrongEl) ui.summaryWrongEl.textContent = String(wrong);
   if (ui.summaryTotalEl) ui.summaryTotalEl.textContent = String(total);
 
+  const skillStats = buildSkillStats(state.results.responses);
+  renderSkillSummary(skillStats);
+
   if (ui.summaryListEl) {
     ui.summaryListEl.innerHTML = '';
     state.results.responses.forEach((resp, idx) => {
@@ -514,6 +526,74 @@ function renderSummary() {
       ui.summaryListEl.appendChild(item);
     });
   }
+}
+
+function buildSkillStats(responses) {
+  const stats = new Map();
+
+  responses.forEach(resp => {
+    const skill = toSkillLabel(resp.topic);
+    const current = stats.get(skill) || { skill, correct: 0, total: 0 };
+    current.total += 1;
+    if (resp.correct) current.correct += 1;
+    stats.set(skill, current);
+  });
+
+  return Array.from(stats.values())
+    .map(entry => ({
+      ...entry,
+      percent: entry.total ? Math.round((entry.correct / entry.total) * 100) : 0
+    }))
+    .sort((a, b) => (b.percent - a.percent) || (b.total - a.total) || a.skill.localeCompare(b.skill));
+}
+
+function renderSkillSummary(stats) {
+  if (!ui.skillSummaryEl || !ui.skillSummaryListEl) return;
+
+  if (!stats.length) {
+    ui.skillSummaryEl.hidden = true;
+    ui.skillSummaryListEl.innerHTML = '';
+    return;
+  }
+
+  ui.skillSummaryEl.hidden = false;
+  ui.skillSummaryListEl.innerHTML = '';
+
+  stats.forEach(stat => {
+    const card = document.createElement('div');
+    card.className = 'skill-card';
+
+    const top = document.createElement('div');
+    top.className = 'skill-card-top';
+
+    const name = document.createElement('div');
+    name.className = 'skill-name';
+    name.textContent = stat.skill;
+
+    const score = document.createElement('div');
+    const scoreBand = stat.percent >= 85 ? 'good' : (stat.percent >= 60 ? 'medium' : 'low');
+    score.className = `skill-score ${scoreBand}`;
+    score.textContent = `${stat.percent}%`;
+
+    top.appendChild(name);
+    top.appendChild(score);
+    card.appendChild(top);
+
+    const sub = document.createElement('div');
+    sub.className = 'skill-subtext';
+    sub.textContent = `${stat.correct} of ${stat.total} correct`;
+    card.appendChild(sub);
+
+    const bar = document.createElement('div');
+    bar.className = 'skill-bar';
+    const fill = document.createElement('div');
+    fill.className = 'skill-bar-fill';
+    fill.style.width = `${stat.percent}%`;
+    bar.appendChild(fill);
+    card.appendChild(bar);
+
+    ui.skillSummaryListEl.appendChild(card);
+  });
 }
 
 function renderReviewItem() {
@@ -720,6 +800,7 @@ function chooseAnswer(optionIndex) {
     options: q.options,
     chosen: optionIndex,
     correctIndex: q.answer,
+    topic: q.topic,
     image: q.image,
     imageAlt: q.imageAlt,
     correct
