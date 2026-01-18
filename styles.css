@@ -134,6 +134,16 @@ button.option{
   cursor:pointer;
   transition:transform .08s ease,box-shadow .08s ease;
 }
+button.option.option-correct{
+  border-color:rgba(70,211,154,0.75);
+  background:linear-gradient(180deg, rgba(70,211,154,0.18), rgba(70,211,154,0.12));
+  box-shadow:0 0 0 1px rgba(70,211,154,0.45),0 8px 22px rgba(0,0,0,0.45);
+}
+button.option.option-wrong{
+  border-color:rgba(255,107,107,0.75);
+  background:linear-gradient(180deg, rgba(255,107,107,0.18), rgba(255,107,107,0.12));
+  box-shadow:0 0 0 1px rgba(255,107,107,0.45),0 8px 22px rgba(0,0,0,0.45);
+}
 button.option:hover{box-shadow:0 6px 16px rgba(0,0,0,0.35)}
 button.option:focus-visible{outline:3px solid rgba(74,163,255,0.45);outline-offset:2px}
 button.option:active{transform:translateY(1px)}

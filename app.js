@@ -28,7 +28,7 @@ const ui = {
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '18';
+const BUILD_ID = '19';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -115,6 +115,68 @@ function setNextVisible(visible) {
 
 function disableOptions() {
   ui.optionsEl.querySelectorAll('button').forEach(b => { b.disabled = true; });
+}
+
+let audioCtx;
+function getAudioCtx() {
+  audioCtx = audioCtx || new AudioContext();
+  return audioCtx;
+}
+
+
+function playToneDoubleBeep() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  const beep = (offset, freq) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(freq, now + offset);
+    gain.gain.setValueAtTime(0.12, now + offset);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.18);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now + offset);
+    osc.stop(now + offset + 0.2);
+  };
+  beep(0, 480);
+  beep(0.18, 360);
+}
+
+function playWrongTone() {
+  try {
+    playToneDoubleBeep();
+  } catch (e) {
+    console.warn('Audio playback failed', e);
+  }
+}
+
+function playToneCorrectBell() {
+  const ctx = getAudioCtx();
+  const now = ctx.currentTime;
+  const tones = [
+    { freq: 880, dur: 0.32, gain: 0.18, offset: 0 },
+    { freq: 1320, dur: 0.24, gain: 0.14, offset: 0.06 },
+    { freq: 1760, dur: 0.18, gain: 0.1, offset: 0.12 }
+  ];
+
+  tones.forEach(t => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(t.freq, now + t.offset);
+    gain.gain.setValueAtTime(t.gain, now + t.offset);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + t.offset + t.dur);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(now + t.offset);
+    osc.stop(now + t.offset + t.dur + 0.02);
+  });
+}
+function playCorrectTone() {
+  try {
+    playToneCorrectBell();
+  } catch (e) {
+    console.warn('Audio playback failed', e);
+  }
 }
 
 function showQuizArea(show) {
@@ -794,6 +856,8 @@ function chooseAnswer(optionIndex) {
   if (!q) return;
   disableOptions();
 
+  const buttons = Array.from(ui.optionsEl.querySelectorAll('button.option'));
+
   const correct = optionIndex === q.answer;
   state.results.responses.push({
     question: q.question,
@@ -807,11 +871,24 @@ function chooseAnswer(optionIndex) {
   });
   if (correct) {
     state.results.correct += 1;
+    playCorrectTone();
   }
-  setFeedback(
-    correct ? 'Correct! 🎉' : `Oops — the right answer is ${q.options[q.answer]}`,
-    correct ? 'correct' : 'incorrect'
-  );
+
+  buttons.forEach((btn, idx) => {
+    btn.classList.remove('option-correct', 'option-wrong');
+    if (correct && idx === optionIndex) {
+      btn.classList.add('option-correct');
+    }
+    if (!correct && idx === optionIndex) {
+      btn.classList.add('option-wrong');
+    }
+  });
+
+  if (!correct) {
+    playWrongTone();
+  }
+
+  setFeedback('', '');
   setNextVisible(true);
 }
 
