@@ -15,20 +15,22 @@ const ui = {
   filterFeedbackEl: document.getElementById('filter-feedback'),
   quizArea: document.getElementById('quiz-area'),
   homeBtn: document.getElementById('home'),
-  reviewBottomBtn: document.getElementById('review-bottom'),
   summaryEl: document.getElementById('summary'),
   summaryScoreEl: document.getElementById('summary-score'),
   summaryCorrectEl: document.getElementById('summary-correct'),
   summaryWrongEl: document.getElementById('summary-wrong'),
   summaryTotalEl: document.getElementById('summary-total'),
   summaryListEl: document.getElementById('summary-list'),
+  summaryWrongToggleEl: document.getElementById('summary-wrong-toggle'),
+  summaryCountEl: document.getElementById('summary-count'),
+  skillSummaryToggleEl: document.getElementById('skill-summary-toggle'),
   skillSummaryEl: document.getElementById('skill-summary'),
   skillSummaryListEl: document.getElementById('skill-summary-list')
 };
 
 // Single source of truth for cache-busting across manifest + service worker.
 // Bump this when you deploy changes that iOS Safari might aggressively cache.
-const BUILD_ID = '19';
+const BUILD_ID = '20';
 
 function getServiceWorkerVersionFromController() {
   try {
@@ -89,15 +91,17 @@ const state = {
     correct: 0,
     total: 0
   },
-  review: {
-    active: false,
-    wrong: [],
-    index: 0,
-    overlay: null
-  }
+  skillStats: [],
+  skillSummaryVisible: false
+};
+
+const summaryFilter = {
+  wrongOnly: false
 };
 
 let filtersBound = false;
+let summaryFiltersBound = false;
+let skillSummaryBound = false;
 
 function setFilterFeedback(message) {
   if (!ui.filterFeedbackEl) return;
@@ -200,158 +204,6 @@ function showSummary(show) {
   ui.summaryEl.hidden = !show;
 }
 
-function resetReviewState() {
-  destroyReviewOverlay();
-  state.review = { active: false, wrong: [], index: 0, overlay: null };
-  hideReviewMessage();
-}
-
-function showReviewMessage(text) {
-  if (!ui.summaryEl) return;
-  let msg = ui.summaryEl.querySelector('.review-empty');
-  if (!msg) {
-    msg = document.createElement('div');
-    msg.className = 'review-empty';
-    msg.setAttribute('role', 'status');
-    ui.summaryEl.insertBefore(msg, ui.summaryListEl || ui.summaryEl.lastElementChild);
-  }
-  msg.textContent = text;
-  msg.hidden = false;
-}
-
-function hideReviewMessage() {
-  if (!ui.summaryEl) return;
-  const msg = ui.summaryEl.querySelector('.review-empty');
-  if (msg) msg.hidden = true;
-}
-
-function destroyReviewOverlay() {
-  const overlayRefs = state.review.overlay;
-  if (!overlayRefs) return;
-
-  const { overlay, prevBtn, nextBtn, closeBtn, keyHandler } = overlayRefs;
-  prevBtn?.removeEventListener('click', goToPrevReview);
-  nextBtn?.removeEventListener('click', goToNextReview);
-  closeBtn?.removeEventListener('click', exitReviewMode);
-  if (keyHandler) window.removeEventListener('keydown', keyHandler);
-  overlay?.remove();
-  state.review.overlay = null;
-}
-
-function createReviewOverlay() {
-  const overlay = document.createElement('div');
-  overlay.className = 'review-overlay';
-  overlay.tabIndex = -1;
-
-  const panel = document.createElement('div');
-  panel.className = 'review-panel';
-  overlay.appendChild(panel);
-
-  const header = document.createElement('div');
-  header.className = 'review-header';
-  const progress = document.createElement('div');
-  progress.className = 'review-progress';
-  const closeBtn = document.createElement('button');
-  closeBtn.className = 'review-close';
-  closeBtn.type = 'button';
-  closeBtn.textContent = 'Close review';
-  header.appendChild(progress);
-  header.appendChild(closeBtn);
-
-  const questionEl = document.createElement('div');
-  questionEl.className = 'review-question';
-
-  const media = document.createElement('div');
-  media.className = 'review-media';
-  media.hidden = true;
-  const mediaImg = document.createElement('img');
-  mediaImg.loading = 'lazy';
-  mediaImg.alt = '';
-  media.appendChild(mediaImg);
-
-  const answers = document.createElement('div');
-  answers.className = 'review-answers';
-
-  const yourRow = document.createElement('div');
-  yourRow.className = 'review-row';
-  const yourLabel = document.createElement('span');
-  yourLabel.className = 'review-label';
-  yourLabel.textContent = 'Your answer';
-  const yourValue = document.createElement('span');
-  yourValue.className = 'review-value';
-  yourRow.appendChild(yourLabel);
-  yourRow.appendChild(yourValue);
-
-  const correctRow = document.createElement('div');
-  correctRow.className = 'review-row';
-  const correctLabel = document.createElement('span');
-  correctLabel.className = 'review-label';
-  correctLabel.textContent = 'Correct answer';
-  const correctValue = document.createElement('span');
-  correctValue.className = 'review-value';
-  correctRow.appendChild(correctLabel);
-  correctRow.appendChild(correctValue);
-
-  answers.appendChild(yourRow);
-  answers.appendChild(correctRow);
-
-  const nav = document.createElement('div');
-  nav.className = 'review-nav';
-  const prevBtn = document.createElement('button');
-  prevBtn.className = 'review-nav-btn';
-  prevBtn.type = 'button';
-  prevBtn.textContent = 'Previous';
-  const nextBtn = document.createElement('button');
-  nextBtn.className = 'review-nav-btn primary';
-  nextBtn.type = 'button';
-  nextBtn.textContent = 'Next';
-  nav.appendChild(prevBtn);
-  nav.appendChild(nextBtn);
-
-  panel.appendChild(header);
-  panel.appendChild(questionEl);
-  panel.appendChild(media);
-  panel.appendChild(answers);
-  panel.appendChild(nav);
-
-  const keyHandler = event => {
-    if (!state.review.active) return;
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      goToPrevReview();
-    }
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      goToNextReview();
-    }
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      exitReviewMode();
-    }
-  };
-
-  prevBtn.addEventListener('click', goToPrevReview);
-  nextBtn.addEventListener('click', goToNextReview);
-  closeBtn.addEventListener('click', exitReviewMode);
-  window.addEventListener('keydown', keyHandler);
-
-  document.body.appendChild(overlay);
-  overlay.focus({ preventScroll: true });
-
-  return {
-    overlay,
-    progressEl: progress,
-    questionEl,
-    mediaEl: media,
-    mediaImg,
-    yourEl: yourValue,
-    correctEl: correctValue,
-    prevBtn,
-    nextBtn,
-    closeBtn,
-    keyHandler
-  };
-}
 
 function resetQuizUi(message) {
   ui.questionEl.textContent = message;
@@ -542,12 +394,186 @@ function showReadyState() {
   state.questions = [];
   resetResults();
   resetQuizUi('');
+  summaryFilter.wrongOnly = false;
+  if (ui.summaryWrongToggleEl) {
+    ui.summaryWrongToggleEl.disabled = false;
+    ui.summaryWrongToggleEl.textContent = 'Show wrong only';
+  }
+  if (ui.summaryCountEl) ui.summaryCountEl.textContent = '';
+  state.skillSummaryVisible = false;
+  state.skillStats = [];
+  if (ui.skillSummaryToggleEl) {
+    ui.skillSummaryToggleEl.hidden = true;
+    ui.skillSummaryToggleEl.disabled = true;
+    ui.skillSummaryToggleEl.textContent = 'Show per-skill mastery';
+  }
+  if (ui.skillSummaryEl) {
+    ui.skillSummaryEl.hidden = true;
+    if (ui.skillSummaryListEl) ui.skillSummaryListEl.innerHTML = '';
+  }
+}
+
+function applySummaryFilter(responses) {
+  if (!Array.isArray(responses)) return [];
+  return summaryFilter.wrongOnly ? responses.filter(resp => !resp.correct) : responses;
+}
+
+function updateSummaryCount(shown, total) {
+  if (!ui.summaryCountEl) return;
+  if (!total) {
+    ui.summaryCountEl.textContent = '';
+    return;
+  }
+
+  ui.summaryCountEl.textContent = summaryFilter.wrongOnly
+    ? `Showing wrong only (${shown})`
+    : `Showing all (${shown}/${total})`;
+}
+
+function updateWrongToggleUi(hasWrong) {
+  if (!ui.summaryWrongToggleEl) return;
+
+  ui.summaryWrongToggleEl.disabled = !hasWrong;
+
+  if (!hasWrong) {
+    summaryFilter.wrongOnly = false;
+  }
+
+  ui.summaryWrongToggleEl.textContent = summaryFilter.wrongOnly ? 'Show all' : 'Show wrong only';
+}
+
+function createSummaryItem(resp, idx) {
+  const item = document.createElement('div');
+  item.className = 'summary-item';
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'summary-row-toggle';
+  toggle.setAttribute('aria-expanded', 'false');
+
+  const title = document.createElement('div');
+  title.className = 'summary-row-title';
+  title.textContent = `${idx + 1}. ${resp.question}`;
+
+  const isCorrect = !!resp.correct;
+  const chip = document.createElement('span');
+  chip.className = `summary-chip ${isCorrect ? 'chip-correct' : 'chip-wrong'}`;
+  chip.textContent = isCorrect ? 'Correct' : 'Wrong';
+
+  const caret = document.createElement('span');
+  caret.className = 'summary-caret';
+  caret.setAttribute('aria-hidden', 'true');
+
+  toggle.appendChild(title);
+  toggle.appendChild(chip);
+  toggle.appendChild(caret);
+
+  const body = document.createElement('div');
+  body.className = 'summary-row-body';
+  body.hidden = true;
+
+  const optionsWrap = document.createElement('div');
+  optionsWrap.className = 'summary-options';
+  (resp.options || []).forEach((opt, optIdx) => {
+    const optEl = document.createElement('div');
+    const isCorrectOpt = optIdx === resp.correctIndex;
+    const isChosenOpt = optIdx === resp.chosen;
+    optEl.className = 'summary-option';
+    if (isCorrectOpt) optEl.classList.add('summary-option-correct');
+    if (isChosenOpt && !resp.correct) optEl.classList.add('summary-option-wrong');
+    optEl.textContent = opt;
+    optionsWrap.appendChild(optEl);
+  });
+
+  if (resp.options?.length) {
+    body.appendChild(optionsWrap);
+  }
+
+  if (resp.topic) {
+    const topicLine = document.createElement('div');
+    topicLine.className = 'summary-topic';
+    topicLine.textContent = `Topic: ${resp.topic}`;
+    body.appendChild(topicLine);
+  }
+
+  toggle.addEventListener('click', () => {
+    const nextOpen = body.hidden;
+    body.hidden = !nextOpen;
+    item.classList.toggle('open', nextOpen);
+    toggle.setAttribute('aria-expanded', String(nextOpen));
+  });
+
+  item.appendChild(toggle);
+  item.appendChild(body);
+  return item;
+}
+
+function renderSummaryList(responses) {
+  if (!ui.summaryListEl) return;
+  ui.summaryListEl.innerHTML = '';
+
+  if (!responses.length) {
+    const empty = document.createElement('div');
+    empty.className = 'summary-empty';
+    empty.textContent = summaryFilter.wrongOnly ? 'No wrong answers to show.' : 'Nothing to show yet.';
+    ui.summaryListEl.appendChild(empty);
+    return;
+  }
+
+  responses.forEach((resp, idx) => {
+    ui.summaryListEl.appendChild(createSummaryItem(resp, idx));
+  });
+}
+
+function updateSkillSummary(stats) {
+  const hasStats = Array.isArray(stats) && stats.length > 0;
+
+  if (ui.skillSummaryToggleEl) {
+    ui.skillSummaryToggleEl.hidden = !hasStats;
+    ui.skillSummaryToggleEl.disabled = !hasStats;
+    ui.skillSummaryToggleEl.textContent = state.skillSummaryVisible ? 'Hide per-skill mastery' : 'Show per-skill mastery';
+  }
+
+  if (!ui.skillSummaryEl || !ui.skillSummaryListEl) return;
+
+  if (!state.skillSummaryVisible || !hasStats) {
+    ui.skillSummaryEl.hidden = true;
+    ui.skillSummaryListEl.innerHTML = '';
+    return;
+  }
+
+  renderSkillSummary(stats);
+}
+
+function bindSkillSummaryToggle() {
+  if (skillSummaryBound) return;
+  if (!ui.skillSummaryToggleEl) return;
+
+  ui.skillSummaryToggleEl.addEventListener('click', () => {
+    state.skillSummaryVisible = !state.skillSummaryVisible;
+    updateSkillSummary(state.skillStats);
+  });
+
+  skillSummaryBound = true;
+}
+
+function bindSummaryFilters() {
+  if (summaryFiltersBound) return;
+  if (!ui.summaryWrongToggleEl) return;
+
+  ui.summaryWrongToggleEl.addEventListener('click', () => {
+    summaryFilter.wrongOnly = !summaryFilter.wrongOnly;
+    updateWrongToggleUi(true);
+    renderSummary();
+  });
+
+  summaryFiltersBound = true;
 }
 
 function renderSummary() {
   if (!ui.summaryEl) return;
-
-  resetReviewState();
+  bindSummaryFilters();
+  bindSkillSummaryToggle();
 
   const total = state.results.total || state.questions.length || 0;
   const correct = state.results.correct;
@@ -559,35 +585,15 @@ function renderSummary() {
   if (ui.summaryWrongEl) ui.summaryWrongEl.textContent = String(wrong);
   if (ui.summaryTotalEl) ui.summaryTotalEl.textContent = String(total);
 
-  const skillStats = buildSkillStats(state.results.responses);
-  renderSkillSummary(skillStats);
+  state.skillStats = buildSkillStats(state.results.responses);
+  updateSkillSummary(state.skillStats);
 
-  if (ui.summaryListEl) {
-    ui.summaryListEl.innerHTML = '';
-    state.results.responses.forEach((resp, idx) => {
-      const item = document.createElement('div');
-      item.className = 'summary-item';
-      item.tabIndex = -1;
+  const hasWrong = state.results.responses.some(resp => !resp.correct);
+  updateWrongToggleUi(hasWrong);
 
-      const qEl = document.createElement('div');
-      qEl.className = 'summary-question';
-      qEl.textContent = `${idx + 1}. ${resp.question}`;
-      item.appendChild(qEl);
-
-      const meta = document.createElement('div');
-      meta.className = 'summary-meta';
-      const userAnswer = resp.options[resp.chosen] ?? '—';
-      const correctAnswer = resp.options[resp.correctIndex] ?? '—';
-      if (resp.correct) {
-        meta.innerHTML = `<span class="summary-correct">Correct</span> • Your answer: ${userAnswer}`;
-      } else {
-        meta.innerHTML = `<span class="summary-wrong">Wrong</span> • Your answer: ${userAnswer} • Correct: ${correctAnswer}`;
-      }
-      item.appendChild(meta);
-
-      ui.summaryListEl.appendChild(item);
-    });
-  }
+  const filtered = applySummaryFilter(state.results.responses);
+  updateSummaryCount(filtered.length, state.results.responses.length);
+  renderSummaryList(filtered);
 }
 
 function buildSkillStats(responses) {
@@ -658,73 +664,6 @@ function renderSkillSummary(stats) {
   });
 }
 
-function renderReviewItem() {
-  const { wrong, index, overlay } = state.review;
-  const item = wrong[index];
-  if (!item || !overlay) {
-    exitReviewMode();
-    return;
-  }
-
-  renderReviewMedia(item, overlay);
-  overlay.questionEl.textContent = item.question;
-  overlay.yourEl.textContent = item.options[item.chosen] ?? '—';
-  overlay.yourEl.className = `review-value ${item.correct ? 'correct' : 'wrong'}`;
-  overlay.correctEl.textContent = item.options[item.correctIndex] ?? '—';
-  overlay.correctEl.className = 'review-value correct';
-  overlay.progressEl.textContent = `${index + 1} of ${wrong.length}`;
-  overlay.prevBtn.disabled = index === 0;
-  overlay.nextBtn.disabled = index >= wrong.length - 1;
-}
-
-function renderReviewMedia(item, overlay) {
-  if (!overlay?.mediaEl || !overlay?.mediaImg) return;
-  const src = item.image || '';
-
-  if (!src) {
-    overlay.mediaEl.hidden = true;
-    overlay.mediaImg.removeAttribute('src');
-    overlay.mediaImg.alt = '';
-    return;
-  }
-
-  overlay.mediaEl.hidden = false;
-  overlay.mediaImg.src = src;
-  overlay.mediaImg.alt = item.imageAlt || 'Question image';
-}
-
-function enterReviewMode() {
-  const wrong = state.results.responses.filter(resp => !resp.correct);
-  if (!wrong.length) {
-    destroyReviewOverlay();
-    state.review = { active: false, wrong: [], index: 0, overlay: null };
-    showReviewMessage('No wrong answers to review 🎉');
-    return;
-  }
-
-  hideReviewMessage();
-  const overlay = createReviewOverlay();
-  state.review = { active: true, wrong, index: 0, overlay };
-  renderReviewItem();
-}
-
-function exitReviewMode() {
-  resetReviewState();
-}
-
-function goToPrevReview() {
-  if (!state.review.active) return;
-  if (state.review.index === 0) return;
-  state.review.index -= 1;
-  renderReviewItem();
-}
-
-function goToNextReview() {
-  if (!state.review.active) return;
-  if (state.review.index >= state.review.wrong.length - 1) return;
-  state.review.index += 1;
-  renderReviewItem();
-}
 
 function showSessionComplete() {
   state.answered = true;
@@ -905,10 +844,6 @@ ui.nextBtn.addEventListener('click', goToNextQuestion);
 ui.homeBtn?.addEventListener('click', () => {
   showReadyState();
 });
-ui.reviewBottomBtn?.addEventListener('click', () => {
-  enterReviewMode();
-});
-
 applyBuildIdToManifestLink();
 registerServiceWorker();
 initBuildBadge();

@@ -11,7 +11,10 @@
 </head>
 <body>
   <main class="container">
-    <button id="home" class="home" type="button" hidden>Home</button>
+    <div class="top-actions">
+      <button id="home" class="home" type="button" hidden>Home</button>
+      <button id="skill-summary-toggle" class="summary-ghost" type="button" hidden>Show per-skill mastery</button>
+    </div>
     <h1>Math Quiz</h1>
     <form id="filters" class="filters" autocomplete="off">
       <div class="field">
@@ -76,10 +79,11 @@
         </div>
         <div id="skill-summary-list" class="skill-summary-list"></div>
       </div>
-      <div id="summary-list" class="summary-list"></div>
-      <div class="summary-actions summary-actions-bottom">
-        <button id="review-bottom" class="review" type="button">Review mistakes</button>
+      <div class="summary-controls">
+        <button id="summary-wrong-toggle" class="summary-ghost" type="button">Show wrong only</button>
+        <div id="summary-count" class="summary-count" aria-live="polite"></div>
       </div>
+      <div id="summary-list" class="summary-list"></div>
     </div>
   </main>
   <button id="build-badge" class="build-badge" type="button" aria-label="Build information"></button>
