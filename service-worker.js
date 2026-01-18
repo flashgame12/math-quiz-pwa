@@ -5,7 +5,12 @@ const PRECACHE_PATHS = Array.from(new Set([
   '',
   'index.html',
   'styles.css',
-  'app.js',
+  'src/app.js',
+  'src/ui/index.js',
+  'src/audio/index.js',
+  'src/data/questions.js',
+  'src/summary/index.js',
+  'src/pwa/index.js',
   'questions.json',
   'manifest.json',
   'icons/icon-192.png',
@@ -74,19 +79,25 @@ async function cacheFirst(request, { fallbackUrl } = {}) {
   }
 }
 
+const APP_SHELL_PATHS = [
+  '/',
+  '/index.html',
+  '/styles.css',
+  '/src/app.js',
+  '/src/ui/index.js',
+  '/src/audio/index.js',
+  '/src/data/questions.js',
+  '/src/summary/index.js',
+  '/src/pwa/index.js',
+  '/manifest.json'
+];
+
 function isAppShellRequest(request) {
   try {
     const url = new URL(request.url);
     if (url.origin !== self.location.origin) return false;
-
     if (request.mode === 'navigate') return true;
-    return (
-      url.pathname.endsWith('/') ||
-      url.pathname.endsWith('/index.html') ||
-      url.pathname.endsWith('/styles.css') ||
-      url.pathname.endsWith('/app.js') ||
-      url.pathname.endsWith('/manifest.json')
-    );
+    return APP_SHELL_PATHS.some(path => url.pathname === path || url.pathname.endsWith(path));
   } catch {
     return false;
   }

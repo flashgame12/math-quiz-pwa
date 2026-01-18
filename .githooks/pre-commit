@@ -14,6 +14,6 @@ if git rev-parse --verify HEAD >/dev/null 2>&1; then
 fi
 
 next_build="$((commit_count + 1))"
-python3 "$repo_root/scripts/bump_build.py" "$repo_root/app.js" "$next_build" >/dev/null
+python3 "$repo_root/scripts/bump_build.py" "$repo_root/src/pwa/index.js" "$next_build" >/dev/null
 
-git add "$repo_root/app.js"
+git add "$repo_root/src/pwa/index.js"
